@@ -1,60 +1,53 @@
-CREATE DATABASE QueryPractice;
-USE QueryPractice;
-CREATE TABLE Country (
-    Id INT PRIMARY KEY,
-    Country_name VARCHAR(100),
-    Population INT,
-    Area FLOAT
+CREATE database CompanyDB;
+USE CompanyDB;
+-- Step 1: Create the Managers Table
+CREATE TABLE Managers (
+    Manager_Id INT PRIMARY KEY,
+    First_name VARCHAR(50),
+    Last_name VARCHAR(50),
+    DOB DATE,
+    Age INT CHECK (Age >= 18),
+    Last_update DATE,
+    Gender VARCHAR(10),
+    Department VARCHAR(50),
+    Salary DECIMAL(10,2) NOT NULL
 );
 
-CREATE TABLE Persons (
-    Id INT PRIMARY KEY,
-    Fname VARCHAR(50),
-    Lname VARCHAR(50),
-    Population INT,
-    Rating FLOAT,
-    Country_Id INT,
-    Country_name VARCHAR(100)
-);
+-- Step 2: Insert 10 Rows
+INSERT INTO Managers 
+(Manager_Id, First_name, Last_name, DOB, Age, Last_update, Gender, Department, Salary)
+VALUES 
+(1, 'Jazlan', 'Muhammed', '1985-05-15', 40, '2025-07-01', 'Male', 'HR', 30000),
+(2, 'Aaliya', 'Khan', '1990-04-20', 35, '2025-07-01', 'Female', 'Finance', 28000),
+(3, 'Dora', 'Buji', '1988-02-12', 37, '2025-07-01', 'Male', 'IT', 32000),
+(4, 'Nihla', 'Patel', '1992-10-09', 32, '2025-07-01', 'Female', 'IT', 27000),
+(5, 'Ali', 'Shaikh', '1980-11-30', 44, '2025-07-01', 'Male', 'Admin', 22000),
+(6, 'Sana', 'fathima', '1986-01-05', 39, '2025-07-01', 'Female', 'HR', 31000),
+(7, 'Liaqat', 'Ali', '1991-08-15', 33, '2025-07-01', 'Male', 'IT', 26000),
+(8, 'Emma', 'Watson', '1993-03-25', 32, '2025-07-01', 'Female', 'Marketing', 29000),
+(9, 'Robert', 'Taylor', '1987-12-12', 37, '2025-07-01', 'Male', 'Finance', 34000),
+(10, 'Sara', 'Ali', '1995-06-18', 30, '2025-07-01', 'Female', 'IT', 15000);
 
-INSERT INTO Country (Id, Country_name, Population, Area) VALUES
-(1, 'USA', 331000000, 9834000),
-(2, 'Canada', 38000000, 9985000),
-(3, 'India', 1380000000, 3287000),
-(4, 'UK', 67000000, 243610),
-(5, 'Australia', 25000000, 7692000),
-(6, 'Germany', 83000000, 357400),
-(7, 'France', 67000000, 643800),
-(8, 'Brazil', 212000000, 8516000),
-(9, 'Japan', 126000000, 377975),
-(10, 'Mexico', 128000000, 1964000);
+-- Step 3: Retrieve Name and DOB of Manager with Manager_Id = 1
+SELECT First_name, Last_name, DOB
+FROM Managers
+WHERE Manager_Id = 1;
 
-INSERT INTO Persons (Id, Fname, Lname, Population, Rating, Country_Id, Country_name) VALUES
-(1, 'Ali', 'Smith', 100000, 4.5, 1, 'USA'),
-(2, 'Bibin', 'Johnson', 120000, 4.1, 2, 'Canada'),
-(3, 'Cindrella', 'Williams', 80000, 3.9, 3, 'India'),
-(4, 'Das', 'Brown', 150000, 4.7, 4, 'UK'),
-(5, 'Emma', 'Jones', 90000, 3.5, 5, 'Australia'),
-(6, 'Franklin', 'Garcia', 70000, 4.9, 6, 'Germany'),
-(7, 'George', 'Miller', 110000, 4.2, 7, 'France'),
-(8, 'Hamd', 'Davis', 95000, 5.0, 8, 'Brazil'),
-(9, 'Ijaz', 'Martinez', 60000, 2.8, 9, 'Japan'),
-(10, 'Jerin', 'Lopez', 85000, 4.6, NULL, NULL);
+-- Step 4: Display Annual Income (Salary * 12) of All Managers
+SELECT Manager_Id, First_name, Last_name, (Salary * 12) AS Annual_Income
+FROM Managers;
 
--- 1. List distinct country names from the Persons table
-SELECT DISTINCT Country_name FROM Persons;
+-- Step 5: Display Records of All Managers Except 'Aaliya'
+SELECT *
+FROM Managers
+WHERE First_name <> 'Aaliya';
 
-SELECT Fname AS First_Name, Lname AS Last_Name FROM Persons;
-SELECT * FROM Persons WHERE Rating > 4.0;
-SELECT * FROM Country WHERE Population > 1000000;
-SELECT * FROM Persons
-WHERE Country_name = 'USA' OR Rating > 4.5;
-SELECT * FROM Persons WHERE Country_name IS NULL;
-SELECT * FROM Persons
-WHERE Country_name IN ('USA', 'Canada', 'UK');
-SELECT * FROM Persons
-WHERE Country_name NOT IN ('India', 'Australia');
-SELECT * FROM Country
-WHERE Population BETWEEN 500000 AND 2000000;
-SELECT * FROM Country
-WHERE Country_name NOT LIKE 'C%';
+-- Step 6: Display Managers from IT Department Earning More Than 25000
+SELECT *
+FROM Managers
+WHERE Department = 'IT' AND Salary > 25000;
+
+-- Step 7: Display Managers with Salary Between 10000 and 35000
+SELECT *
+FROM Managers
+WHERE Salary BETWEEN 10000 AND 35000;
